@@ -16,5 +16,8 @@ I've open-sourced my project 2 submission for future students to reference as an
 * Include comments in the code to clearly explain functionality
 * Your SVG pages will be viewed using either the Opera browser (http://www.opera.com/) or the safari browser since they have the most complete viewing capabitities
 
+#### DEMO
+http://www.matthewtraughber.com/demo/4002-536_project-2/
+
 #### License
 Released under the [MIT license](http://opensource.org/licenses/MIT)
