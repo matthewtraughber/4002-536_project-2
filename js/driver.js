@@ -94,7 +94,7 @@ function handleHttpResponse() {
 			var responseTextLength = http.responseText.length;
 
 			// Removes the invalid JSON formatting from Flickr
-			formattedJSON = http.responseText.slice(15, responseTextLength - 1);
+			formattedJSON = http.responseText.slice(15, responseTextLength - 2);
 
 			// Detects if any invalid JSON is sent from Flicker - if so, try again by calling init()
 			try {
