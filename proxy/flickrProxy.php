@@ -9,10 +9,13 @@
 		curl_setopt($session, CURLOPT_HEADER, false);
 		curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
 
+		// Disable SSL verification
+		curl_setopt($session, CURLOPT_SSL_VERIFYPEER, false);
+
 	$json = curl_exec($session);
-	
+
 	header("Content-Type: application/json");
 	echo $json;
-	
+
 	curl_close($session);
 ?>

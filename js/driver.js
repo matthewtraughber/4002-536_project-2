@@ -19,7 +19,7 @@ function init() {
 
 	// Assigns global flag to pause HTTP requests
 	isWorking = false;
-	
+
 	// Detects if definitions have been already configured
 	if (defConfig) {
 		// Function call to create drop shadow filter definition
@@ -60,14 +60,16 @@ function getHTTPObject() {
 function loadData() {
 	// Detect if HTTP object exists and is not busy
 	if (http && !isWorking) {
-		// Tries to get live data, else defaults to a local data source
-		if (location.hostname == "people.rit.edu") {
-			// Opens local PHP proxy to get data
-			http.open('get', 'http://people.rit.edu/met8481/536/project_2/proxy/flickrProxy.php?format=' + format);
-		} else {
-			// Opens local data source as a manual work around (for testing)
-			http.open('get', 'http://127.0.0.1/proj2/data/flickr.json');
-		}
+		// // Tries to get live data, else defaults to a local data source
+		// if (location.hostname == "people.rit.edu") {
+		// 	// Opens local PHP proxy to get data
+		// 	http.open('get', 'http://people.rit.edu/met8481/536/project_2/proxy/flickrProxy.php?format=' + format);
+		// } else {
+		// 	// Opens local data source as a manual work around (for testing)
+		// 	http.open('get', 'http://127.0.0.1/proj2/data/flickr.json');
+		// }
+
+		http.open('get', 'proxy/flickrProxy.php?format=' + format);
 
 		http.onreadystatechange = handleHttpResponse;
 		http.send();
@@ -94,16 +96,19 @@ function handleHttpResponse() {
 			// Removes the invalid JSON formatting from Flickr
 			formattedJSON = http.responseText.slice(15, responseTextLength - 1);
 
+			// Escapes ' within the JSON response
+			var parsedFormattedJSON = formattedJSON.replace("\'","\\'");
+
 			// Detects if any invalid JSON is sent from Flicker - if so, try again by calling init()
 			try {
 				// Parses JSON data - assigns to global data variable
-				data = JSON.parse(formattedJSON);
+				data = JSON.parse(parsedFormattedJSON);
 			} catch (e) {
 				// console.log(e);
-				
+
 				// Tries again for data
 				init();
-				
+
 				return false;
 			}
 
@@ -111,7 +116,7 @@ function handleHttpResponse() {
 			for (i = 0; i <= 1; i += (1 / fadeStages)) {
 				setTimeout("setOpacity(" + (1 - i) + ")", i * fadeDuration);
 			}
-			
+
 			// Call the main function to display data
 			startStream(data);
 
@@ -127,7 +132,7 @@ function handleHttpResponse() {
 function setOpacity(level) {
 	document.getElementById('loading').style.opacity = level;
 	document.getElementById('nav').style.opacity = (1 - level);
-	
+
 	if (level < .050) {
 		document.getElementById('loading').style.display = 'none';
 	}
@@ -141,7 +146,7 @@ function startStream(data) {
 	// Function call to create polaroids
 	createPolaroids(data);
 }
-  
+
 
 // *****************************************************************************
 // Function to operate on data
@@ -152,7 +157,7 @@ function createPolaroids() {
 
 	// Gets list of items
 	var items = data['items'];
-	
+
 	// Loops through items to create displayed content
 	for (item in items) {
 	//for (var item = 0; item < 2; item++) {
@@ -179,26 +184,26 @@ function createPolaroids() {
 			// Parses item description to get thumbnail height (hardcoded for flickr currently)
 			var heightStartIndex = description.lastIndexOf('height="') + 8;
 			var heightEndIndex = description.lastIndexOf('" alt');
-			var height = description.substring(heightStartIndex, heightEndIndex);                 
-			
+			var height = description.substring(heightStartIndex, heightEndIndex);
+
 			// Detects if author name is too long
 			if (authorName.length > (width / 18)) {
 				authorName = authorName.substring(0, (width / 18)) + "...";
 			}
-			
+
 			// Detects if title is too long
 			if (title.length > (width / 14)) {
 				title = title.substring(0, (width / 14)) + "...";
 			}
-			
-			// Gets window center coordinates to place polaroid	
+
+			// Gets window center coordinates to place polaroid
 			var polaroidX = Math.floor((window.innerWidth / 2) - (parseInt(width) / 2));
 			var polaroidY = Math.floor((window.innerHeight / 2) - (parseInt(height) / 2));
-			
+
 			// -------------------------------------------------------
 			// CREATION OF SVG ELEMENTS ------------------------------
 			// Creates a group to hold each polaroid's relevant data
-			var polaroidGroup = document.createElementNS(svgNS, 'g');		
+			var polaroidGroup = document.createElementNS(svgNS, 'g');
 			polaroidGroup.setAttributeNS(null, 'class', "polaroidGroup");
 			polaroidGroup.setAttributeNS(null, 'transform', "rotate(" + 180 + ")" + " " + "translate(" + 1 + "," + 1 + ")");
 			polaroidGroup.setAttributeNS(null, 'width', parseInt(width) + 'px');
@@ -209,7 +214,7 @@ function createPolaroids() {
 			polaroidGroup.setAttributeNS(null, 'id', authorID + dateTaken);
 			polaroidGroup.setAttributeNS(null, "onmousedown","catchMove('" + authorID + dateTaken + "')");
 			polaroidGroup.setAttributeNS(null, "onmouseup","stopMove('" + authorID + dateTaken + "')");
-				
+
 			// Creates a rectangle to act as the polaroid label / border
 			var polaroidLabel = document.createElementNS(svgNS, 'rect');
 			polaroidLabel.setAttributeNS(null, 'class', "polaroidLabel");
@@ -232,7 +237,7 @@ function createPolaroids() {
 			polaroidImageBorder.setAttributeNS(null, 'fill', '#000');
 			polaroidImageBorder.setAttributeNS(null, 'stroke', '#000');
 			polaroidImageBorder.setAttributeNS(null, 'stroke-width', 2);
-			
+
 			// Creates image (from data) to append to pattern (for polaroid image background)
 			var polaroidImage = document.createElementNS(svgNS, 'image');
 			polaroidImage.setAttributeNS(null, 'class', "polaroidImage");
@@ -261,27 +266,27 @@ function createPolaroids() {
 
 			// Creates tspan to hold title text for image source
 			var linkTextTitle = document.createElementNS(svgNS, 'tspan');
-			
+
 			// Adds relevant text to the title's tspan
 			linkTextTitle.appendChild(document.createTextNode(title));
-			
+
 			// Creates tspan to hold author name text for image source
 			var linkTextAuthorName = document.createElementNS(svgNS, 'tspan');
 			linkTextAuthorName.setAttributeNS(null, 'fill', '#BCB19B');
 			linkTextAuthorName.setAttributeNS(null, 'dy', 15);
-			
+
 			// Adds relevant text to the author's name tspan
 			linkTextAuthorName.appendChild(document.createTextNode(" by " + authorName));
-			
+
 			// -----------------------------------------------------------
 			// PLACING SVG ELEMENTS ON PAGE ------------------------------
 			// Appends the image to the polaroid 'object'
 			polaroidGroup.appendChild(polaroidLabel);
 			polaroidGroup.appendChild(polaroidImageBorder);
-			
+
 			// Appends the image to the polaroid 'object'
 			polaroidGroup.appendChild(polaroidImage);
-			
+
 			// Appends the tspans to the text tag
 			linkText.appendChild(linkTextTitle);
 			linkText.appendChild(linkTextAuthorName);
@@ -291,16 +296,16 @@ function createPolaroids() {
 
 			// Appends the link / item text to the polaroid 'object'
 			polaroidGroup.appendChild(linkTag);
-			
+
 			// Appends the polaroid 'object' to the page
 			document.getElementById('polaroids').appendChild(polaroidGroup);
-			
+
 			// Rotates the polaroid object into view
 			rotateAnimation((authorID + dateTaken),  0, (Math.random() * 360));
-			
+
 			polaroidCount++;
 		}
-	}	
+	}
 }
 
 
@@ -308,7 +313,7 @@ function createPolaroids() {
 // Function to create animation definitions
 // *****************************************************************************
 function rotateAnimation(id, from, to) {
-	var polaroidGroupRotate = document.createElementNS(svgNS, 'animateTransform');	
+	var polaroidGroupRotate = document.createElementNS(svgNS, 'animateTransform');
 	polaroidGroupRotate.setAttributeNS(null, 'id', 'polaroidGroupRotate');
 	polaroidGroupRotate.setAttributeNS(null, 'attributeName', 'transform');
 	polaroidGroupRotate.setAttributeNS(null, 'type', 'rotate');
@@ -326,35 +331,35 @@ function rotateAnimation(id, from, to) {
 // Function to create drop shadow filter
 // *****************************************************************************
 function createDropShadow() {
-		var dropShadowFilter = document.createElementNS(svgNS, 'filter');	
+		var dropShadowFilter = document.createElementNS(svgNS, 'filter');
 		dropShadowFilter.setAttributeNS(null, 'id', "dropShadow");
 		document.getElementById('filters').appendChild(dropShadowFilter);
-		
+
 		var dropShadowFEOffset = document.createElementNS(svgNS, 'feOffset');
 		dropShadowFEOffset.setAttributeNS(null, 'in', "SourceAlpha");
 		dropShadowFEOffset.setAttributeNS(null, 'result', "Shadow");
 		dropShadowFEOffset.setAttributeNS(null, 'dx', "0");
 		dropShadowFEOffset.setAttributeNS(null, 'dy', "1");
 		dropShadowFilter.appendChild(dropShadowFEOffset);
-		
+
 		var dropShadowFEColorMatrix = document.createElementNS(svgNS, 'feColorMatrix');
 		dropShadowFEColorMatrix.setAttributeNS(null, 'in', "Shadow");
 		dropShadowFEColorMatrix.setAttributeNS(null, 'result', "FadeShadow");
 		dropShadowFEColorMatrix.setAttributeNS(null, 'type', "matrix");
 		dropShadowFEColorMatrix.setAttributeNS(null, 'values', "0.5 0 0 0 0 0 0.5 0 0 0 0 0 0.5 0 0 0 0 0 0.5 0");
-		dropShadowFilter.appendChild(dropShadowFEColorMatrix);	
+		dropShadowFilter.appendChild(dropShadowFEColorMatrix);
 
 		var dropShadowFEGaussianBlur = document.createElementNS(svgNS, 'feGaussianBlur');
 		dropShadowFEGaussianBlur.setAttributeNS(null, 'in', "FadeShadow");
 		dropShadowFEGaussianBlur.setAttributeNS(null, 'result', "BlurShadow");
 		dropShadowFEGaussianBlur.setAttributeNS(null, 'stdDeviation', "3");
-		dropShadowFilter.appendChild(dropShadowFEGaussianBlur);		
-		
+		dropShadowFilter.appendChild(dropShadowFEGaussianBlur);
+
 		var dropShadowFEBlend = document.createElementNS(svgNS, 'feBlend');
 		dropShadowFEBlend.setAttributeNS(null, 'in', "SourceGraphic");
 		dropShadowFEBlend.setAttributeNS(null, 'in2', "BlurShadow");
 		dropShadowFEBlend.setAttributeNS(null, 'mode', "normal");
-		dropShadowFilter.appendChild(dropShadowFEBlend);		
+		dropShadowFilter.appendChild(dropShadowFEBlend);
 }
 
 
@@ -379,20 +384,20 @@ function catchMove(id) {
 
 	// Gets current transform matrix for polaroid object
 	var tests = document.getElementById(id).getCTM();
-	
+
 	// Radians converted to degrees
 	var rad2Deg = 180 / Math.PI;
-	
+
 	// Gets current rotated angle of polaroid object
 	var rotation = Math.atan2( tests.b, tests.a ) * rad2Deg;
-	
+
 	// Rotates polaroid object to be 'right-side up'
 	rotateAnimation(id, rotation, (360 - rotation));
-	
+
 	// Loops through the polaroid group objects, and applies the onmousemove event
 	for (var i = 0, len = polaroidObjects.length; i < len; i++) {
 		var polaroidObject = polaroidObjects[i];
-		
+
 		polaroidObject.setAttributeNS(null, "onmousemove","startMove(evt,'" + id + "')");
 	}
 }
@@ -401,30 +406,30 @@ function catchMove(id) {
 // *****************************************************************************
 // Function to drag polaroid
 // *****************************************************************************
-function startMove(evt, id) { 
+function startMove(evt, id) {
 	// Gets the child objects of the polaroid group
 	var  polaroidObjects = document.getElementById(id).childNodes;
-	
+
 	// Loops through the polaroid group objects, and detects when a specific one is selected
 	for (var i = 0, len = polaroidObjects.length; i < len; i++) {
 		var polaroidObject = polaroidObjects[i];
-		
+
 		if (polaroidObject.className != undefined) {
 			// Switch statement to detect specific polaroid components, then moves specific components appropriately
 			switch (polaroidObject.className.baseVal) {
 				case 'polaroidLabel':
-					polaroidObject.setAttributeNS(null,"x", ((evt.clientX) - (polaroidObject.width.baseVal.value / 2))); 
-					polaroidObject.setAttributeNS(null,"y", ((evt.clientY) - (polaroidObject.height.baseVal.value / 2))); 
+					polaroidObject.setAttributeNS(null,"x", ((evt.clientX) - (polaroidObject.width.baseVal.value / 2)));
+					polaroidObject.setAttributeNS(null,"y", ((evt.clientY) - (polaroidObject.height.baseVal.value / 2)));
 				break;
-				
+
 				case 'polaroidImage':
-					polaroidObject.setAttributeNS(null,"x", ((evt.clientX) - (polaroidObject.width.baseVal.value / 2))); 
-					polaroidObject.setAttributeNS(null,"y", ((evt.clientY) - ((polaroidObject.height.baseVal.value / 2) + 20))); 
+					polaroidObject.setAttributeNS(null,"x", ((evt.clientX) - (polaroidObject.width.baseVal.value / 2)));
+					polaroidObject.setAttributeNS(null,"y", ((evt.clientY) - ((polaroidObject.height.baseVal.value / 2) + 20)));
 				break;
-				
-				case 'polaroidLink':		
-					polaroidObject.childNodes[0].setAttributeNS(null,"x", ((evt.clientX) - ((polaroidObjects[0].width.baseVal.value / 2) - 30))); 
-					polaroidObject.childNodes[0].setAttributeNS(null,"y", ((evt.clientY) + ((polaroidObjects[0].height.baseVal.value / 2) - 30))); 
+
+				case 'polaroidLink':
+					polaroidObject.childNodes[0].setAttributeNS(null,"x", ((evt.clientX) - ((polaroidObjects[0].width.baseVal.value / 2) - 30)));
+					polaroidObject.childNodes[0].setAttributeNS(null,"y", ((evt.clientY) + ((polaroidObjects[0].height.baseVal.value / 2) - 30)));
 				break;
 			}
 		}
@@ -438,12 +443,11 @@ function startMove(evt, id) {
 function stopMove(id) {
 	// Gets the child objects of the polaroid group
 	var  polaroidObjects = document.getElementById(id).childNodes;
-	
+
 	// Loops through the polaroid group objects, and removes the onmousemove event
 	for (var i = 0, len = polaroidObjects.length; i < len; i++) {
 		var polaroidObject = polaroidObjects[i];
-		
-		polaroidObject.setAttributeNS(null, "onmousemove", null); 
+
+		polaroidObject.setAttributeNS(null, "onmousemove", null);
 	}
 }
-
