@@ -94,7 +94,7 @@ function handleHttpResponse() {
 			var responseTextLength = http.responseText.length;
 
 			// Removes the invalid JSON formatting from Flickr
-			formattedJSON = http.responseText.slice(15, responseTextLength - 2);
+			formattedJSON = http.responseText.slice(15, responseTextLength - 1);
 
 			// Escapes ' within the JSON response
 			var parsedFormattedJSON = formattedJSON.replace("\'","\\'");
