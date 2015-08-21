@@ -96,10 +96,13 @@ function handleHttpResponse() {
 			// Removes the invalid JSON formatting from Flickr
 			formattedJSON = http.responseText.slice(15, responseTextLength - 2);
 
+			// Escapes ' within the JSON response
+			var parsedFormattedJSON = formattedJSON.replace("\'","\\'");
+
 			// Detects if any invalid JSON is sent from Flicker - if so, try again by calling init()
 			try {
 				// Parses JSON data - assigns to global data variable
-				data = JSON.parse(formattedJSON);
+				data = JSON.parse(parsedFormattedJSON);
 			} catch (e) {
 				// console.log(e);
 
