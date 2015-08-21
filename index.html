@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>536 Project 2 - MET</title>
+		
+		<link rel="stylesheet" type="text/css" href="css/index.css" />
+		
+		<script>		
+			// IE & MAC detection
+			if (navigator.userAgent.indexOf("Mac")!=-1 && document.all) {				
+				alert("Please download a modern browser, as IE for the Mac will not properly display this site");
+				window.open("https://www.google.com/intl/en/chrome/browser/", _self);
+			}
+			
+			// Deprecated browser detection
+			if (document.getElementById) {
+	
+			} else {
+				alert("Please download a modern browser, as your deprecated browser will not properly display this site.");
+				window.open("https://www.google.com/intl/en/chrome/browser/", "_self");
+			}	
+			
+		</script>
+		
+		
+		<script type="text/javascript" src="js/driver.js"></script>
+	</head>
+
+	<body onload="init();">
+		<div id="container">
+			<div id="nav">
+				<p id="hitMe" onclick="loadData()">hit me</p>
+				<p id="cleanSlate" onclick="clearSlate()">clean slate</p>
+			</div>
+			<div id="loading">
+				<p>[ loading from flickr ]</p>
+				<p id="shiftBlame">(blame their buggy JSON feeds)</p>
+			</div>
+			<div id="content">
+				<?xml version="1.0" standalone="no"?>
+				<svg id="svgCanvas" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full">
+					<defs id="pathReq">
+						<g id="pathCircle">
+							<circle fill="#F2F2F2" cx="52" cy="46" r="23"/>
+							<circle fill="#EFEFEF" cx="52" cy="45.956" r="22.859"/>
+							<circle fill="#ECECEC" cx="52" cy="45.911" r="22.718"/>
+							<circle fill="#E9E9E9" cx="52" cy="45.867" r="22.576"/>
+							<circle fill="#E7E7E7" cx="52" cy="45.823" r="22.436"/>
+							<circle fill="#E4E4E4" cx="52" cy="45.778" r="22.294"/>
+							<circle fill="#E1E1E1" cx="52" cy="45.734" r="22.153"/>
+							<circle fill="#DEDEDE" cx="52" cy="45.689" r="22.012"/>
+							<circle fill="#DBDBDB" cx="52" cy="45.645" r="21.871"/>
+							<circle fill="#D8D8D8" cx="52" cy="45.601" r="21.73"/>
+							<circle fill="#D5D5D5" cx="52" cy="45.557" r="21.589"/>
+							<circle fill="#D2D2D2" cx="52" cy="45.512" r="21.448"/>
+							<circle fill="#D0D0D0" cx="52" cy="45.468" r="21.307"/>
+							<circle fill="#CDCDCD" cx="52" cy="45.423" r="21.165"/>
+							<circle fill="#CACACA" cx="52" cy="45.379" r="21.024"/>
+							<circle fill="#C7C7C7" cx="52" cy="45.334" r="20.883"/>
+							<circle fill="#C4C4C4" cx="52" cy="45.291" r="20.742"/>
+							<circle fill="#C1C1C1" cx="52" cy="45.246" r="20.601"/>
+							<circle fill="#BEBEBE" cx="52" cy="45.202" r="20.46"/>
+							<circle fill="#BBBBBB" cx="52" cy="45.157" r="20.318"/>
+							<circle fill="#B9B9B9" cx="52" cy="45.113" r="20.177"/>
+							<circle fill="#B6B6B6" cx="52" cy="45.068" r="20.036"/>
+							<circle fill="#B3B3B3" cx="52" cy="45.024" r="19.895"/>
+							<circle fill="#B0B0B0" cx="52" cy="44.98" r="19.754"/>
+							<circle fill="#ADADAD" cx="52" cy="44.936" r="19.613"/>
+							<circle fill="#AAAAAA" cx="52" cy="44.891" r="19.472"/>
+							<circle fill="#A7A7A7" cx="52" cy="44.847" r="19.331"/>
+							<circle fill="#A4A4A4" cx="52" cy="44.802" r="19.189"/>
+							<circle fill="#A2A2A2" cx="52" cy="44.758" r="19.049"/>
+							<circle fill="#9F9F9F" cx="52" cy="44.714" r="18.907"/>
+							<circle fill="#9C9C9C" cx="52" cy="44.669" r="18.766"/>
+							<circle fill="#999999" cx="52" cy="44.625" r="18.625"/>
+						</g>
+						<g id="pathAccent1">
+							<path fill="#FFFFFF" d="M40.616,32.429c-6.362,5.705,4.284-4.028,4.284-4.028"/>
+							<path fill="#FFFFFF" d="M40.649,32.466c-0.224,0.455-0.5,0.852-0.774,1.252l-0.437,0.575c-0.071,0.098-0.152,0.187-0.232,0.279
+								l-0.131,0.145c-0.022,0.02-0.009,0.015-0.07,0.063l-0.035,0.026c-0.105-0.265,0.318,0.598-1.029-0.339
+								c-0.032-0.918,0.106-0.502,0.061-0.62l0.027-0.04l0.074-0.092l0.073-0.09c0.61-0.766,1.271-1.418,1.956-2.071
+								c0.705-0.625,1.422-1.235,2.208-1.771c0.778-0.544,1.597-1.044,2.528-1.419l0.067,0.074l-4.127,3.852l-2.083,1.901l-0.061-0.069
+								L38.654,34h-0.001c-0.006,0,0.01,0.163,0.008,0.064c-0.143-0.1-0.096,0.058-0.107,0.028l0.006,0.028l0.03-0.008l0.134-0.104
+								l0.267-0.226l0.531-0.461l1.061-0.93L40.649,32.466z"/>
+						</g>
+						<g id="pathAccent2">
+							<path fill="#FFFFFF" d="M63.031,59.378c7.153-4.671-4.848,3.331-4.848,3.331"/>
+							<path fill="#FFFFFF" d="M63.004,59.336c0.291-0.415,0.624-0.766,0.956-1.12l0.519-0.502c0.086-0.086,0.179-0.161,0.271-0.24
+								l0.152-0.123c0.023-0.016,0.014-0.015,0.081-0.052l0.039-0.021c-0.479-0.485,1.433,0.379,0.88,0.995
+								c-0.119,0.172-0.051,0.068-0.077,0.106l-0.033,0.035l-0.083,0.075l-0.085,0.078c-0.719,0.664-1.471,1.208-2.247,1.749
+								c-0.791,0.511-1.594,1.005-2.451,1.415c-0.852,0.419-1.736,0.789-2.715,1.019l-0.055-0.084l4.663-3.18l2.349-1.562l0.069,0.016
+								L65.247,58h0.002c-0.003,0,0.007-0.074-0.008-0.057c-0.06,0.066,0.143,0.125,0.091,0.073l-0.007-0.013l-0.033,0.01l-0.149,0.087
+								l-0.299,0.185l-0.596,0.376l-1.189,0.76L63.004,59.336z"/>
+						</g>
+												
+						<g id="bunchOfBubbles">
+							<use xlink:href="#pathCircle" transform="rotate(0)"/>
+							<use xlink:href="#pathAccent1" transform="rotate(0)"/>
+							<use xlink:href="#pathAccent2" transform="rotate(0)"/>
+							
+							<use xlink:href="#pathCircle" transform="rotate(30)"/>
+							<use xlink:href="#pathAccent1" transform="rotate(30)"/>
+							<use xlink:href="#pathAccent2" transform="rotate(30)"/>
+							
+							<use xlink:href="#pathCircle" transform="rotate(90)"/>
+							<use xlink:href="#pathAccent1" transform="rotate(90)"/>
+							<use xlink:href="#pathAccent2" transform="rotate(90)"/>
+							
+							<use xlink:href="#pathCircle" transform="rotate(120)"/>
+							<use xlink:href="#pathAccent1" transform="rotate(120)"/>
+							<use xlink:href="#pathAccent2" transform="rotate(120)"/>
+							
+							<use xlink:href="#pathCircle" transform="rotate(160)"/>
+							<use xlink:href="#pathAccent1" transform="rotate(160)"/>
+							<use xlink:href="#pathAccent2" transform="rotate(160)"/>
+
+						</g>
+						<g id="superDuperBunchOfBubbles">
+							<use xlink:href="#bunchOfBubbles" transform="rotate(0) translate(0,20) scale(-1,1)"/>
+							<use xlink:href="#bunchOfBubbles" transform="rotate(30) translate(30,0) scale(1,1)"/>
+							<use xlink:href="#bunchOfBubbles" transform="rotate(90) translate(60,10) scale(1,-1)"/>
+							<use xlink:href="#bunchOfBubbles" transform="rotate(120) translate(90,10) scale(1,-1)"/>
+							<use xlink:href="#bunchOfBubbles" transform="rotate(180) translate(110,10) scale(1,-1)"/>
+						</g>
+						<pattern id="bubbles" height="100%" width="100%" patternUnits="userSpaceOnUse" overflow="visible">
+							<use xlink:href="#superDuperBunchOfBubbles" transform="translate(0,400)"/>
+						</pattern>	
+					</defs>
+					
+					<rect id="svgBG" width="100%" height="100%" fill="url(#bubbles)" opacity="0.5" />
+					
+					<defs id="animations"></defs>
+					
+					<defs id="filters"></defs>
+						
+					<g id="polaroids"></g>	
+				</svg>
+			</div>					
+		</div>
+	</body>
+</html>
+
