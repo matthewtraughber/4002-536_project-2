@@ -2,7 +2,7 @@
 
 	// Proxy to grab Flickr data (format is sent via GET)
 	// error_reporting(0);
-	define ('HOSTNAME', 'https://secure.flickr.com/services/feeds/photos_public.gne?format=');
+	define ('HOSTNAME', 'https://www.flickr.com/services/feeds/photos_public.gne?format=');
 
 		$url = HOSTNAME.$_GET['format'];
 		$session = curl_init($url);
